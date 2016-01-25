@@ -36,8 +36,8 @@ wsServer.on('request', (req) => {
       args = qs.parse(data.args);
     } catch(e) {
       connection.send(JSON.stringify({
-        type: 'invalid-message',
-        body: message
+        type: 'error',
+        body: 'Invalid message. Expecting JSON string with "command" and "args".'
       }));
 
       return console.info('Received malformed message');
@@ -67,6 +67,13 @@ wsServer.on('request', (req) => {
       case 'send-message':
         const msg = displayName + ': ' + args.text;
 
+        if (!conversation) {
+          return connection.send(JSON.stringify({
+            type: 'error',
+            body: 'Tried to send message before joining a conversation'
+          }));
+        }
+
         conversation.messages.push(msg);
         if (conversation.messages.length > MAX_MESSAGES) {
           conversation.messages.shift();
@@ -86,6 +93,13 @@ wsServer.on('request', (req) => {
        * Limited to 10.
        */
       case 'get-messages':
+        if (!conversation) {
+          return connection.send(JSON.stringify({
+            type: 'error',
+            body: 'Tried to get messages before joining a conversation'
+          }));
+        }
+
         connection.send(JSON.stringify({
           type: 'message-list',
           body: conversation.messages.map(encodeURIComponent).join(',')
@@ -98,8 +112,8 @@ wsServer.on('request', (req) => {
        */
       default:
         connection.send(JSON.stringify({
-          type: 'unknown-command',
-          body: command
+          type: 'error',
+          body: 'Unknown command: ' + command
         }));
 
         break;
