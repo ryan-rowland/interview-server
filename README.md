@@ -22,7 +22,7 @@ For example:
 ##### Accepted Commands
 
 Command | Arguments | Description
----------------------------------
+--------|-----------|------------
 join-conversation | String displayName, String conversationId | Joins the client to the specified conversation, as the specified alias.
 send-message | String text | Sends a message to the client's active conversation.
 get-messages | N/A | Request a list of messages the server knows about (The server stores up to the 10 most recent).
@@ -41,6 +41,7 @@ For example:
 ##### Events
 
 Type | Body Contains | Description
+-----|---------------|------------
 conversation-joined | N/A | The client has successfully joined a conversation.
 new-message | String message | A new message has been added to the active conversation.
 message-list | String messageList | A response to the client's request for a list of known messages. The list is a single string containing a comma-separated list of URI encoded messages.
