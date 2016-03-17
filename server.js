@@ -19,7 +19,7 @@ const wsServer = new WebSocketServer({ httpServer });
 const conversations = new Map();
 
 wsServer.on('request', (req) => {
-  const connection = req.accept('echo-protocol', req.origin);
+  const connection = req.accept(null, req.origin);
 
   let conversation;
   let conversationId;
