@@ -1,4 +1,4 @@
-#Quick Chat Server
+# Quick Chat Server
 
 ## Description
 QuickChat is a simple WebSocket implementation that relays messages between connected clients, storing up to the 10 most recent messages for each conversation.
